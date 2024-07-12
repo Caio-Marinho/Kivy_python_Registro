@@ -4,7 +4,6 @@ Projeto para aprendizado da biblioteca Kivy do python
  - pagina para login
  - e uma pagina mostrando alguns dados tipo email, nome e data
  - aplicação de hash junto com salt para gerar uma criptografia diferente mesmo sendo a mesma senha
- - um arquivo .exe para executar o programa
 
 ## Instalação
 
