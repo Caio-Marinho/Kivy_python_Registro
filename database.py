@@ -30,18 +30,20 @@ class DataBase:
     def add_user(self, email, password, name):
         if email.strip() not in self.users:
             hash_password, salt = DataBase.hash_password(password)
-            self.users[email.strip()] = (hash_password.strip(),
+            self.users[email.strip()] = (int(str(hash_password).strip()),
                                          salt.strip(),
                                          name.strip(), DataBase.get_date())
             self.save()
+        else:
+            print("Email exists already")
+            return -1
 
     def validate(self, email, password):
         for user in self.users:
             passw = DataBase.verificar(password,self.users[user][0],self.users[user][1])
-        if self.get_user(email) != -1 and (passw is True):
+        if self.get_user(email) != -1 and passw:
             return passw
         else:
-            print("Email exists already")
             return -1
 
     def save(self):
@@ -58,11 +60,11 @@ class DataBase:
         if salt is None:
             salt = os.urandom(16)
         password_salt = password + str(salt)
-        sha_signature = hashlib.sha256(password_salt.encode()).hexdigest()
+        sha_signature = int(hashlib.sha256(password_salt.encode()).hexdigest(),16)
         return sha_signature,salt
 
     @staticmethod
     def verificar(password,hash,salt):
         hash_pass, _ = DataBase.hash_password(password, salt)
         # Verifica se o hash gerado corresponde ao hash verdadeiro
-        return hash_pass == hash
+        return hash_pass == int(hash)
